@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Priya Aich's Portfolio</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="profile">
+                <img src="profile.jpg" alt="Profile Picture">
+                <div class="profile-info">
+                    <h1>Priya Aich</h1>
+                    <p>Web Developer (MERN)</p>
+                </div>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="#about">About</a></li>
+                    <li><a href="#skills">Skills</a></li>
+                    <li><a href="#projects">Projects</a></li>
+                    <li><a href="#contact">Contact</a></li>
+                    <li><a href="#certifications">Certifications</a></li>
+                    <li><a href="#education">Education</a></li>
+                    <li><a href="#experience">Experience</a></li>
+                </ul>
+            </nav>
+        </header>
+
+        <main>
+            <section id="about">
+                <h2>About</h2>
+                <textarea id="about-content" placeholder="Write about yourself..."></textarea>
+                <button onclick="updateAbout()">Save</button>
+            </section>
+
+            <section id="skills">
+                <h2>Skills</h2>
+                <ul id="skills-list"></ul>
+                <input type="text" id="skill-name" placeholder="Skill name">
+                <input type="number" id="skill-proficiency" placeholder="Proficiency (1-10)">
+                <button onclick="addSkill()">Add Skill</button>
+            </section>
+
+            <section id="projects">
+                <h2>Projects</h2>
+                <ul id="projects-list"></ul>
+                <input type="text" id="project-title" placeholder="Project title">
+                <textarea id="project-description" placeholder="Project description"></textarea>
+                <button onclick="addProject()">Add Project</button>
+            </section>
+
+            <section id="contact">
+                <h2>Contact</h2>
+                <input type="email" id="contact-email" placeholder="Email">
+                <input type="tel" id="contact-phone" placeholder="Phone number">
+                <input type="url" id="contact-linkedin" placeholder="LinkedIn profile">
+                <button onclick="updateContact()">Save</button>
+            </section>
+
+            <section id="certifications">
+                <h2>Certifications</h2>
+                <ul id="certifications-list"></ul>
+                <input type="text" id="certification-name" placeholder="Certification name">
+                <input type="text" id="certification-institution" placeholder="Institution">
+                <input type="number" id="certification-year" placeholder="Year">
+                <button onclick="addCertification()">Add Certification</button>
+            </section>
+
+            <section id="education">
+                <h2>Education</h2>
+                <ul id="education-list"></ul>
+                <input type="text" id="education-degree" placeholder="Degree">
+                <input type="text" id="education-institution" placeholder="Institution">
+                <input type="number" id="education-year" placeholder="Year">
+                <button onclick="addEducation()">Add Education</button>
+            </section>
+
+            <section id="experience">
+                <h2>Experience</h2>
+                <ul id="experience-list"></ul>
+                <input type="text" id="experience-title" placeholder="Title">
+                <input type="text" id="experience-company" placeholder="Company">
+                <input type="date" id="experience-startDate" placeholder="Start Date">
+                <input type="date" id="experience-endDate" placeholder="End Date">
+                <input type="text" id="experience-location" placeholder="Location">
+                <textarea id="experience-description" placeholder="Description"></textarea>
+                <button onclick="addExperience()">Add Experience</button>
+            </section>
+        </main>
+
+        <footer>
+            <div class="contacts">
+                <p>Email: priyaaichO4@gmail.com</p>
+                <p>LinkedIn: <a href="https://www.linkedin.com/in/priya-aich/" target="_blank">linkedin.com/in/priya-aich</a></p>
+                <p>Phone: +91-9916862138</p>
+            </div>
+            <p>&copy; 2024 by Priya Aich. Proudly created with HTML, CSS, and JavaScript</p>
+        </footer>
+    </div>
+    <script src="scripts.js"></script>
+</body>
+</html>
