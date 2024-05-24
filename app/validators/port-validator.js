@@ -37,8 +37,6 @@ const skillsValidationSchema = [
     .toInt(), // Coerce the validated level to an integer
 
 ]
-
-
 const projectsValidationSchema = [
   body('projects')
     .isArray()
@@ -57,7 +55,6 @@ const projectsValidationSchema = [
     .isURL()
     .withMessage('Link must be a valid URL')
 ]
-
 const contactValidationSchema = [
   body('contact')
     .isArray()
@@ -117,43 +114,6 @@ const educationValidationSchema = [
     .withMessage('Year must be an integer')
 ]
 
-// const experienceValidationSchema = [
-//   body('experience')
-//     .isArray()
-//     .withMessage('Experience must be an array'),
-//   body('experience.*.title')
-//     .notEmpty()
-//     .withMessage('Title cannot be empty'),
-//   body('experience.*.company')
-//     .notEmpty()
-//     .withMessage('Company name cannot be empty'),
-//   body('experience.*.startDate')
-//     .isISO8601()
-//     .toDate()
-//     .withMessage('Start date must be a valid date (YYYY-MM-DD)'),
-//   body('experience.*.endDate')
-//     .optional({ checkFalsy: true })
-//     .custom((value, { req, path }) => {
-//       if (value === 'current' || value === 'present') return true
-//       const endDate = new Date(value)
-//       if (isNaN(endDate.getTime())) {
-//         throw new Error(`${value} is not a valid date. End date must be "current", "present", or a valid date (YYYY-MM-DD)`)
-//       }
-//       return true
-//     }),
-//    body('experience.*.location')
-//     .notEmpty()
-//     .withMessage('Location cannot be empty'),
-//   body('experience.*.description')
-//     .notEmpty()
-//     .withMessage('Description cannot be empty'),
-//   body('experience.*.technologies')
-//     .isArray()
-//     .withMessage('Technologies must be an array'),
-//   body('experience.*.achievements')
-//     .isArray()
-//     .withMessage('Achievements must be an array')
-// ]
 const experienceValidationSchema = [
   body('experience')
     .isArray()

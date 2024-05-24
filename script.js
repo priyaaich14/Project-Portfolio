@@ -1,4 +1,4 @@
-// Smooth scrolling for navigation links
+
 document.querySelectorAll('nav ul li a').forEach(ele => {
     ele.addEventListener('click', function (e) {
         e.preventDefault();
@@ -8,103 +8,110 @@ document.querySelectorAll('nav ul li a').forEach(ele => {
     })
 })
 
-// Fetch profile data and update the DOM
 function fetchProfileData() {
-    const xhr = new XMLHttpRequest();
-    xhr.open('GET', 'http://localhost:7803/api/profiles') // Change this URL to match your API
+    const xhr = new XMLHttpRequest()
+    xhr.open('GET', 'http://localhost:7803/api/profiles', true) // Ensure this URL matches your API
     xhr.onload = function () {
         if (xhr.status === 200) {
             const profiles = JSON.parse(xhr.responseText)
-            const profile = profiles[0] // Assuming you want the first profile
-            updateProfile(profile)
+            console.log(profiles) // Debug: Log the profiles to verify the response
+            updateProfiles(profiles)
         } else {
             console.error('Error fetching profiles:', xhr.status, xhr.statusText)
         }
     }
     xhr.send()
 }
-
-function updateProfile(profile) {
-    updateAboutSection(profile)
-    updateSkillsSection(profile)
-    updateExperienceSection(profile)
-    updateProjectsSection(profile)
-    updateEducationSection(profile)
-    updateLanguagesSection(profile)
-    updateCertificationsSection(profile)
-    updateContactDetails(profile)
+function deleteProfile(id) {
+    const xhr = new XMLHttpRequest();
+    xhr.open('DELETE', `http://localhost:7803/api/profiles/${id}`, true)
+    xhr.onload = function () {
+        if (xhr.status === 200) {
+            alert('Profile deleted successfully!')
+            fetchProfileData(); // Refresh the profiles list
+        } else {
+            console.error('Error deleting profile:', xhr.status, xhr.statusText)
+            alert('Failed to delete profile. Please try again.')
+        }
+    }
+    xhr.send()
 }
 
-function updateAboutSection(profile) {
-    document.getElementById('about-content').textContent = profile.about[0].content
-}
+function updateProfiles(profiles) {
+    const profilesContainer = document.getElementById('profiles-container')
+    profilesContainer.innerHTML = '' // Clear existing content
 
-function updateSkillsSection(profile) {
-    const skillsContent = document.getElementById('skills-content') // Ensure you have a container with this ID in HTML
-    skillsContent.innerHTML = profile.skills.map(skill => `
-        <li>${skill.name} (Proficiency: ${skill.proficiency}/10)</li>
-    `).join('')
-}
+    profiles.forEach(profile => {
+        const profileElement = document.createElement('div')
+        profileElement.classList.add('profile')
 
-function updateExperienceSection(profile) {
-    const experienceContent = document.getElementById('experience-content')
-    experienceContent.innerHTML = profile.experience.map(exp => {
-        let formattedEndDate = exp.endDate === 'current' || exp.endDate === 'present' ?
-            exp.endDate.charAt(0).toUpperCase() + exp.endDate.slice(1) :
-            new Date(exp.endDate).toLocaleDateString()
-        return `
-            <div class="experience-item">
-                <h3>${exp.title} at ${exp.company}</h3>
-                <p>${new Date(exp.startDate).toLocaleDateString()} - ${formattedEndDate}</p>
-                <p>${exp.description}</p>
-            </div>
+        profileElement.innerHTML = `
+            <section id="about">
+                <h1>About Me</h1>
+                <div class="about-content">
+                    <img src="profile.jpg" alt="Profile Image" class="profile-image">
+                    <p>${profile.about[0].content}</p>
+                </div>
+            </section>
+            <section id="skills">
+                <h2>Skills</h2>
+                <ul>
+                    ${profile.skills.map(skill => `<li>${skill.name} (Proficiency: ${skill.proficiency}/10)</li>`).join('')}
+                </ul>
+            </section>
+            <section id="experience">
+                <h2>Experience</h2>
+                ${profile.experience.map(exp => `
+                    <div class="experience-item">
+                        <h3>${exp.title} at ${exp.company}</h3>
+                        <p>${new Date(exp.startDate).toLocaleDateString()} - ${exp.endDate === 'current' ? 'Present' : new Date(exp.endDate).toLocaleDateString()}</p>
+                        <p>${exp.description}</p>
+                    </div>
+                `).join('')}
+            </section>
+            <section id="projects">
+                <h2>Projects</h2>
+                ${profile.projects.map(project => `
+                    <div class="project-item">
+                        <h3>${project.title}</h3>
+                        <p>${project.description}</p>
+                    </div>
+                `).join('')}
+            </section>
+            <section id="education">
+                <h2>Education</h2>
+                ${profile.education.map(edu => `
+                    <div class="education-item">
+                        <h3>${edu.degree}</h3>
+                        <p>${edu.institution} - ${edu.year}</p>
+                    </div>
+                `).join('')}
+            </section>
+            <section id="languages">
+                <h2>Languages</h2>
+                ${profile.languages.map(lang => `
+                    <p>${lang.name} (Proficiency: ${lang.proficiency}/10)</p>
+                `).join('')}
+            </section>
+            <section id="certifications">
+                <h2>Certifications</h2>
+                ${profile.certifications.map(cert => `
+                    <div class="certification-item">
+                        <h3>${cert.name}</h3>
+                        <p>${cert.institution} - ${cert.year}</p>
+                    </div>
+                `).join('')}
+            </section>
+            <section id="contact">
+                <h2>Contact</h2>
+                <p>Email: <a href="mailto:${profile.contact[0].email}">${profile.contact[0].email}</a></p>
+                <p>Phone: ${profile.contact[0].phoneNumber}</p>
+                <p><a href="${profile.contact[0].linkedin}" target="_blank">LinkedIn</a></p>
+            </section>
         `
-    }).join('')
-}
 
-function updateProjectsSection(profile) {
-    const projectsContent = document.getElementById('projects-content')
-    projectsContent.innerHTML = profile.projects.map(project => `
-        <div class="project-item">
-            <h3>${project.title}</h3>
-            <p>${project.description}</p>
-        </div>
-    `).join('')
-}
-
-function updateEducationSection(profile) {
-    const educationContent = document.getElementById('education-content')
-    educationContent.innerHTML = profile.education.map(edu => `
-        <div class="education-item">
-            <h3>${edu.degree}</h3>
-            <p>${edu.institution} - ${edu.year}</p>
-        </div>
-    `).join('')
-}
-
-function updateLanguagesSection(profile) {
-    const languagesContent = document.getElementById('languages-content')
-    languagesContent.innerHTML = profile.languages.map(lang => `
-        <p>${lang.name} (Proficiency: ${lang.proficiency}/10)</p>
-    `).join('')
-}
-
-function updateCertificationsSection(profile) {
-    const certificationsContent = document.getElementById('certifications-content')
-    certificationsContent.innerHTML = profile.certifications.map(cert => `
-        <div class="certification-item">
-            <h3>${cert.name}</h3>
-            <p>${cert.institution} - ${cert.year}</p>
-        </div>
-    `).join('')
-}
-
-function updateContactDetails(profile) {
-    const contact = profile.contact[0]
-    document.getElementById('email-link').textContent = contact.email
-    document.getElementById('email-link').href = `mailto:${contact.email}`
-    document.getElementById('phone').textContent = contact.phoneNumber
-    document.getElementById('linkedin-link').href = contact.linkedin
+        profilesContainer.appendChild(profileElement)
+    })
 }
 
 document.getElementById('contact-form').addEventListener('submit', function (e) {

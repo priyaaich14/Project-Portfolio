@@ -69,6 +69,7 @@ app.delete('/api/language/:id/:languageId', profileController.removeLanguage)
 // Routes for creating and listing profiles
 app.get('/api/profiles', profileController.listProfiles)
 app.post('/api/profiles', profileController.createProfile)
+app.delete('/api/profiles/:id', profileController.deleteProfile)
 
 app.listen(port, () => {
   console.log(`Server running on port ${port}`)

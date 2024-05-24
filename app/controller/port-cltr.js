@@ -44,7 +44,20 @@ profileController.createProfile = (req, res) => {
       res.status(500).json({ error: err.message })
     })
 }
-
+// delete profiles:
+profileController.deleteProfile = (req, res) => {
+  const { id } = req.params;
+  Profile.findByIdAndDelete(id)
+    .then(profile => {
+      if (!profile) {
+        return res.status(404).json({ error: 'Profile not found' })
+      }
+      res.status(200).json({ message: 'Profile deleted successfully',profile })
+    })
+    .catch(err => {
+      res.status(500).json({ error: err.message })
+    })
+}
 // Show about section
 profileController.showAbout = (req, res) => {
   Profile.findById(req.params.id)
@@ -90,7 +103,7 @@ profileController.removeAbout = (req, res) => {
       if (!profile) {
         return res.status(404).json({ error: 'Profile not found' })
       }
-      const aboutToDelete = profile.about; // Store the about section to return it later
+      const aboutToDelete = profile.about // Store the about section to return it later
       Profile.findByIdAndDelete(req.params.id) // Correct deletion method
         .then(() => {
           res.status(200).json({ message: 'About section deleted', about: aboutToDelete })
